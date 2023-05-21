@@ -1,0 +1,93 @@
+#https://github.com/tobru/odoo-pos-distribution
+#https://github.com/akhdaniel/odoo-kubernetes
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: odoo-service
+spec:
+  selector: 
+    app: odoo
+  ports:
+  - name: http
+    port: 8069    #8069?
+    targetPort: 8069
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo-deployment
+spec:
+  minReadySeconds: 1
+  selector:
+    matchLabels:
+      app: odoo
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      containers:
+      - name: odoo
+        image: odoo:16
+        ports:
+        - name: http
+          containerPort: 8069
+        env:
+        - name: POSTGRES_USER   #POSTGRES_USER: postgresuser
+          value: postgresuser
+        - name: POSTGRES_PASSWORD   #POSTGRES_PASSWORD: postgrespasswd
+          value: postgrespasswd
+        - name: POSTGRES_DB   #POSTGRES_DB: postgres
+          value: postgres
+        - name: PGHOST   #PGHOST: DB
+          value: DB
+        - name: PGPORT   #PGPORT: "5432"
+          value: "5432"
+        volumeMounts:
+        - name: odoo-pvc
+          mountPath: /var/lib/odoo/addons/16.0
+      volumes:
+      - name: odoo-pvc
+        persistentVolumeClaim:
+          claimName: odoo-pvc
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-pvc
+  labels:
+    app: odoo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odd-pv
+  labels:
+    app: odoo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: ./odoo_addons
+
+
+
+      
+    

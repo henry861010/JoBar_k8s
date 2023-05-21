@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+spec:
+  selector: 
+    app: pgadmin
+  ports:
+  - name: http
+    port: 5050
+    targetPort: 5050
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-deployment
+spec:
+  minReadySeconds: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4
+        ports:
+        - name: http
+          containerPort: 5050

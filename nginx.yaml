@@ -1,0 +1,84 @@
+#when deploy the nginx server, you should declare the configmap by shell mode command
+#reference: https://ithelp.ithome.com.tw/articles/10196153
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-pv
+  labels:
+    app: nginx
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: ./ssl
+  persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              #subPath: nginx.conf
+            - name: ssl-certificates
+              mountPath: /etc/ssl/certs
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+        - name: ssl-certificates
+          persistentVolumeClaim:
+            claimName: nginx-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+    - protocol: TCP
+      port: 443
+      targetPort: 443
