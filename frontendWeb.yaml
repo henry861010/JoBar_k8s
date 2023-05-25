@@ -1,56 +1,56 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: odoo-bot-service
+  name: frontendWeb-service
 spec:
   selector: 
-    app: odoo-bot
+    app: frontendWeb
   ports:
   - name: http
-    port: 5000  
-    targetPort: 5000
+    port: 5051 
+    targetPort: 5051
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: odoo-bot-deployment
+  name: frontendWeb-deployment
 spec:
   minReadySeconds: 1
   selector:
     matchLabels:
-      app: odoo-bot
+      app: frontendWeb
   replicas: 1
 
   template:
     metadata:
       labels:
-        app: odoo-bot
+        app: frontendWeb
     spec:
       containers:
-      - name: JoBAR_LineBot
-        image: linebot
+      - name: JoBAR_FrontendWeb
+        image: node:latest
         ports:
         - name: http
-          containerPort: 5000
+          containerPort: 5051
         tty: true
         volumeMounts:
-        - name: odoo-bot-volume
+        - name: frontendWeb-volume
           mountPath: /app
       volumes:
-      - name: odoo-bot-volume
+      - name: frontendWeb-volume
         persistentVolumeClaim:
-          claimName: odoo-bot-pvc
+          claimName: frontendWeb-pvc
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: odoo-bot-pvc
+  name: frontendWeb-pvc
   labels:
-    app: odoo-bot
+    app: frontendWeb
 spec:
   accessModes:
     - ReadWriteOnce
@@ -59,20 +59,20 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo-bot-pv
+      pv-selector: frontendWeb-pv
 
 --- 
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: odoo-bot-pv
+  name: frontendWeb-pv
   labels:
-    app: odoo-bot
+    app: frontendWeb
 spec:
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./bot_data
+    path: ./frontendweb_data

@@ -29,7 +29,7 @@ spec:
         app: pgadmin
     spec:
       containers:
-      - name: pgadmin
+      - name: JoBAR_PGADMIN
         image: dpage/pgadmin4
         ports:
         - name: http

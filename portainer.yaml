@@ -29,23 +29,23 @@ spec:
         app: portainer
     spec:
       containers:
-      - name: portainer
+      - name: JoBAR_Portainer
         image: portainer/portainer
         ports:
         - name: http
           containerPort: 9000
         volumeMounts:
-        - name: portainer-pvc-sock
+        - name: portainer-pvc-sock-volume
           mountPath: /var/run/docker.sock
-        - name: portainer-pvc-data
+        - name: portainer-pvc-data-volume
           mountPath: /data
       volumes:
       - name: portainer-pvc-sock
         persistentVolumeClaim:
-          claimName: portainer-pvc-sock
+          claimName: portainer-pvc-sock-volume
       - name: portainer-pvc-data
         persistentVolumeClaim:
-          claimName: portainer-pvc-data
+          claimName: portainer-pvc-data-volume
 
 ---
 
@@ -61,13 +61,16 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  selector:
+    matchLabels:
+      pv-selector: portainer-pv-sock
 
 --- 
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: portainer-pvc-sock
+  name: portainer-pv-sock
   labels:
     app: portainer
 spec:
@@ -93,13 +96,16 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  selector:
+    matchLabels:
+      pv-selector: portainer-pv-data
 
 --- 
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: portainer-pvc-data
+  name: portainer-pv-data
   labels:
     app: portainer
 spec:
