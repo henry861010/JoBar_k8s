@@ -10,7 +10,7 @@ spec:
     app: odoo
   ports:
   - name: http
-    port: 8069    #8069?
+    port: 8069  
     targetPort: 8069
 
 ---
@@ -39,13 +39,25 @@ spec:
           containerPort: 8069
         env:
         - name: POSTGRES_USER   #POSTGRES_USER: postgresuser
-          value: postgresuser
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD   #POSTGRES_PASSWORD: postgrespasswd
-          value: postgrespasswd
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: POSTGRES_PASSWORD
         - name: POSTGRES_DB   #POSTGRES_DB: postgres
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: POSTGRES_DB
         - name: PGHOST   #PGHOST: DB
-          value: DB
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: PGHOST
         - name: PGPORT   #PGPORT: "5432"
           value: "5432"
         - name: ODOO_HTTP_SOCKET_TIMEOUT
@@ -82,6 +94,7 @@ metadata:
   labels:
     app: odoo
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -89,7 +102,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo-config-pv
+      pv-for: odoo-config
 
 --- 
 
@@ -99,13 +112,15 @@ metadata:
   name: odoo-config-pv
   labels:
     app: odoo
+    pv-for: odoo-config
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./odoo_config
+    path: /run/desktop/mnt/host/c/[path]/odoo_config
 
 ---
 
@@ -116,6 +131,7 @@ metadata:
   labels:
     app: odoo
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -123,7 +139,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo-addons-pv
+      pv-for: odoo-addons
 
 --- 
 
@@ -133,13 +149,15 @@ metadata:
   name: odoo-addons-pv
   labels:
     app: odoo
+    pv-for: odoo-addons
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./odoo_addons
+    path: /run/desktop/mnt/host/c/[path]/odoo_addons
 
 ---
 
@@ -150,6 +168,7 @@ metadata:
   labels:
     app: odoo
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -157,7 +176,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo_webdata-pv
+      pv-for: odoo_webdata
 
 --- 
 
@@ -167,13 +186,15 @@ metadata:
   name: odoo_webdata-pv
   labels:
     app: odoo
+    pv-for: odoo_webdata
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./odoo_webdata
+    path: /run/desktop/mnt/host/c/[path]/odoo_webdata
 
 ---
 
@@ -184,6 +205,7 @@ metadata:
   labels:
     app: odoo
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -191,7 +213,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo-log-pv
+      pv-for: odoo-log
 
 --- 
 
@@ -201,13 +223,15 @@ metadata:
   name: odoo-log-pv
   labels:
     app: odoo
+    pv-for: odoo-log
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./log/odoo_log
+    path: /run/desktop/mnt/host/c/[path]/log/odoo_log
 
 
 

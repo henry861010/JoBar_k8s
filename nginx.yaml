@@ -7,13 +7,15 @@ metadata:
   name: letsencrypt-pv
   labels:
     app: nginx
+    pv-for: letsencrypt-pv
 spec:
+  storageClassName: standard
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: ./letsencrypt
+    path: /run/desktop/mnt/host/c/[path]/letsencrypt
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
 ---
@@ -24,22 +26,24 @@ metadata:
   name: data-pv
   labels:
     app: nginx
+    pv-for: data-pv
 spec:
+  storageClassName: standard
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: ./nginx_data
+    path: /run/desktop/mnt/host/c/[path]/nginx_data
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
----
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: letsencrypt-pvc
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -47,7 +51,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: letsencrypt-pv
+      pv-for: letsencrypt-pv
 
 ---
 
@@ -56,6 +60,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: data-pvc
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -63,7 +68,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: data-pv
+      pv-for: data-pv
 
 ---
 
@@ -82,7 +87,7 @@ spec:
         app: nginx
     spec:
       containers:
-        - name: JoBAR_NGINX
+        - name: nginx
           image: jc21/nginx-proxy-manager:latest
           ports:
             - name: http1

@@ -56,6 +56,7 @@ metadata:
   labels:
     app: portainer
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -63,23 +64,25 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: portainer-pv-sock
+      pv-for: portainer-sock
 
 --- 
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: portainer-pv-sock
+  name: portainer-sock
   labels:
     app: portainer
+    pv-for: portainer-sock
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: /var/run/docker.sock
+    path: /run/desktop/mnt/host/c/[path]/docker.sock
 
 
 ---
@@ -91,6 +94,7 @@ metadata:
   labels:
     app: portainer
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -98,7 +102,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: portainer-pv-data
+      pv-for: portainer-data
 
 --- 
 
@@ -108,13 +112,15 @@ metadata:
   name: portainer-pv-data
   labels:
     app: portainer
+    pv-for: portainer-data
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: portainer_data
+    path: /run/desktop/mnt/host/c/[path]/portainer_data
 
 
 

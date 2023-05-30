@@ -52,6 +52,7 @@ metadata:
   labels:
     app: frontendWeb
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -59,7 +60,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: frontendWeb-pv
+      pv-for: frontendWeb
 
 --- 
 
@@ -69,10 +70,12 @@ metadata:
   name: frontendWeb-pv
   labels:
     app: frontendWeb
+    pv-for: frontendWeb
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./frontendweb_data
+    path: /run/desktop/mnt/host/c/[path]/frontendweb_data

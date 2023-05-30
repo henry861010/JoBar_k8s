@@ -52,6 +52,7 @@ metadata:
   labels:
     app: odoo-bot
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
@@ -59,7 +60,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      pv-selector: odoo-bot-pv
+      pv-for: odoo-bot
 
 --- 
 
@@ -69,10 +70,12 @@ metadata:
   name: odoo-bot-pv
   labels:
     app: odoo-bot
+    pv-for: odoo-bot
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: ./bot_data
+    path: /run/desktop/mnt/host/c/[path]/bot_data
