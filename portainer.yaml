@@ -1,3 +1,77 @@
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: portainer-pv-sock
+  labels:
+    app: portainer
+    pv-for: portainer-pv-sock
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/docker.sock
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: portainer-pvc-sock
+  labels:
+    app: portainer
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: portainer-pv-sock
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: portainer-pv-data
+  labels:
+    app: portainer
+    pv-for: portainer-pv-data
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/portainer_data
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: portainer-pvc-data
+  labels:
+    app: portainer
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: portainer-pv-data
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,7 +103,7 @@ spec:
         app: portainer
     spec:
       containers:
-      - name: JoBAR_Portainer
+      - name: portainer
         image: portainer/portainer
         ports:
         - name: http
@@ -40,87 +114,12 @@ spec:
         - name: portainer-pvc-data-volume
           mountPath: /data
       volumes:
-      - name: portainer-pvc-sock
+      - name: portainer-pvc-sock-volume
         persistentVolumeClaim:
-          claimName: portainer-pvc-sock-volume
-      - name: portainer-pvc-data
+          claimName: portainer-pvc-sock
+      - name: portainer-pvc-data-volume
         persistentVolumeClaim:
-          claimName: portainer-pvc-data-volume
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: portainer-pvc-sock
-  labels:
-    app: portainer
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: portainer-sock
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: portainer-sock
-  labels:
-    app: portainer
-    pv-for: portainer-sock
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/docker.sock
-
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: portainer-pvc-data
-  labels:
-    app: portainer
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: portainer-data
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: portainer-pv-data
-  labels:
-    app: portainer
-    pv-for: portainer-data
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/portainer_data
+          claimName: portainer-pvc-data
 
 
 

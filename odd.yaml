@@ -1,6 +1,156 @@
 #https://github.com/tobru/odoo-pos-distribution
 #https://github.com/akhdaniel/odoo-kubernetes
 
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-config-pvc
+  labels:
+    app: odoo
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: odoo-config
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odoo-config-pv
+  labels:
+    app: odoo
+    pv-for: odoo-config
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_config
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-addons-pvc
+  labels:
+    app: odoo
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: odoo-addons
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odoo-addons-pv
+  labels:
+    app: odoo
+    pv-for: odoo-addons
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_addons
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-webdata-pvc
+  labels:
+    app: odoo
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: odoo-webdata
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odoo-webdata-pv
+  labels:
+    app: odoo
+    pv-for: odoo-webdata
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_webdata
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-log-pvc
+  labels:
+    app: odoo
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: odoo-log
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odoo-log-pv
+  labels:
+    app: odoo
+    pv-for: odoo-log
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/log/odoo_log
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -84,154 +234,6 @@ spec:
       - name: odoo-log-volume
         persistentVolumeClaim:
           claimName: odoo-log-pvc
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: odoo-config-pvc
-  labels:
-    app: odoo
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: odoo-config
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: odoo-config-pv
-  labels:
-    app: odoo
-    pv-for: odoo-config
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/odoo_config
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: odoo-addons-pvc
-  labels:
-    app: odoo
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: odoo-addons
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: odoo-addons-pv
-  labels:
-    app: odoo
-    pv-for: odoo-addons
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/odoo_addons
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: odoo_webdata-pvc
-  labels:
-    app: odoo
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: odoo_webdata
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: odoo_webdata-pv
-  labels:
-    app: odoo
-    pv-for: odoo_webdata
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/odoo_webdata
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: odoo-log-pvc
-  labels:
-    app: odoo
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: odoo-log
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: odoo-log-pv
-  labels:
-    app: odoo
-    pv-for: odoo-log
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/log/odoo_log
 
 
 

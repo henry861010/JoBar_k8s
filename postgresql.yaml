@@ -28,30 +28,12 @@ metadata:
 spec:
   storageClassName: standard
   capacity:
-    storage: 5Gi # Sets PV Volume
+    storage: 1Gi # Sets PV Volume
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/[path]/pgdata
+    path: /run/desktop/mnt/host/c//Users/intel/Desktop/JoBar_k8s/resource/pgdata
     
----
-
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-pvc  # Sets name of PVC
-  labels:
-    app: postgres
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteMany  # Sets read and write access
-  resources:
-    requests:
-      storage: 5Gi  # Sets volume size
-  selector:
-    matchLabels:
-      pv-for: postgres
 
 ---
 
@@ -74,7 +56,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: JoBAR_POSTGRES
+      - name: postgres
         image: postgres
         env:
         - name: POSTGRES_USER   #POSTGRES_USER: postgresuser
@@ -104,8 +86,8 @@ spec:
       name: postgres-pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: manual
+      storageClassName: standard
       resources:
         requests:
-          storage: 5Gi
+          storage: 1Gi
 

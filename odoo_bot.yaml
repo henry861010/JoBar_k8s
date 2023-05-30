@@ -1,4 +1,41 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odoo-bot-pv
+  labels:
+    app: odoo-bot
+    pv-for: odoo-bot
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/bot_data
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-bot-pvc
+  labels:
+    app: odoo-bot
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: odoo-bot
+
+---
+
+apiVersion: v1
 kind: Service
 metadata:
   name: odoo-bot-service
@@ -29,7 +66,7 @@ spec:
         app: odoo-bot
     spec:
       containers:
-      - name: JoBAR_LineBot
+      - name: linebot
         image: linebot
         ports:
         - name: http
@@ -42,40 +79,3 @@ spec:
       - name: odoo-bot-volume
         persistentVolumeClaim:
           claimName: odoo-bot-pvc
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: odoo-bot-pvc
-  labels:
-    app: odoo-bot
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      pv-for: odoo-bot
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: odoo-bot-pv
-  labels:
-    app: odoo-bot
-    pv-for: odoo-bot
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /run/desktop/mnt/host/c/[path]/bot_data

@@ -1,6 +1,8 @@
 #when deploy the nginx server, you should declare the configmap by shell mode command
 #reference: https://ithelp.ithome.com.tw/articles/10196153
 
+
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -11,11 +13,11 @@ metadata:
 spec:
   storageClassName: standard
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/[path]/letsencrypt
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/letsencrypt
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
 ---
@@ -30,13 +32,14 @@ metadata:
 spec:
   storageClassName: standard
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/[path]/nginx_data
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/nginx_data
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
+---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -48,7 +51,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 100Mi
   selector:
     matchLabels:
       pv-for: letsencrypt-pv
@@ -65,7 +68,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 100Mi
   selector:
     matchLabels:
       pv-for: data-pv
@@ -117,18 +120,21 @@ metadata:
   name: nginx-service
 spec:
   selector:
-    name: nginx-deployment
-  type: LoadBalancer
+    app: nginx
+  type: NodePort
   ports:
     - name: http1
       protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30080
     - name: https
       protocol: TCP
       port: 443
       targetPort: 443
+      nodePort: 30443
     - name: http2
       protocol: TCP
       port: 81
       targetPort: 81
+      nodePort: 30081

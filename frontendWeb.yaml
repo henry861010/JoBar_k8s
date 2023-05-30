@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontendWeb-service
+  name: frontendweb-service
 spec:
   selector: 
-    app: frontendWeb
+    app: frontendweb
   ports:
   - name: http
     port: 5051 
@@ -15,67 +15,67 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendWeb-deployment
+  name: frontendweb-deployment
 spec:
   minReadySeconds: 1
   selector:
     matchLabels:
-      app: frontendWeb
+      app: frontendweb
   replicas: 1
 
   template:
     metadata:
       labels:
-        app: frontendWeb
+        app: frontendweb
     spec:
       containers:
-      - name: JoBAR_FrontendWeb
+      - name: frontendweb
         image: node:latest
         ports:
         - name: http
           containerPort: 5051
         tty: true
         volumeMounts:
-        - name: frontendWeb-volume
+        - name: frontendweb-volume
           mountPath: /app
       volumes:
-      - name: frontendWeb-volume
+      - name: frontendweb-volume
         persistentVolumeClaim:
-          claimName: frontendWeb-pvc
+          claimName: frontendweb-pvc
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontendWeb-pvc
+  name: frontendweb-pvc
   labels:
-    app: frontendWeb
+    app: frontendweb
 spec:
   storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 100Mi
   selector:
     matchLabels:
-      pv-for: frontendWeb
+      pv-for: frontendweb
 
 --- 
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: frontendWeb-pv
+  name: frontendweb-pv
   labels:
-    app: frontendWeb
-    pv-for: frontendWeb
+    app: frontendweb
+    pv-for: frontendweb
 spec:
   storageClassName: standard
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/[path]/frontendweb_data
+    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/frontendweb_data
