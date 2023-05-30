@@ -8,7 +8,7 @@ spec:
   ports:
   - name: http
     port: 5050
-    targetPort: 5050
+    targetPort: 80
 
 ---
 
@@ -31,6 +31,11 @@ spec:
       containers:
       - name: JoBAR_PGADMIN
         image: dpage/pgadmin4
+        env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: andrewchang0910@gmail.com
+        - name: PGADMIN_DEFAULT_PASSWORD
+          value: andrewchang!QAZ@WSX
         ports:
         - name: http
-          containerPort: 5050
+          containerPort: 80

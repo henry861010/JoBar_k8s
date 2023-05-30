@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="provider_line_chat" model="auth.oauth.provider">
+            <field name="name">LineApp</field>
+            <field name="auth_endpoint">https://access.line.me/oauth2/v2.1/authorize</field>
+            <field name="scope">profile openid email</field>
+            <field name="validation_endpoint">https://access.line.me/oauth2/v2.1/authorize</field>
+            <field name="body">Login with Line</field>
+            <field name="enabled" eval="True"/>
+        </record>
+    </data>
+</odoo>

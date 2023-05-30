@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<odoo>
+	<record id="query_deluxe_view_tree" model="ir.ui.view">
+		<field name="name">Type a query tree</field>
+		<field name="model">querydeluxe</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="note" string="備註"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="query_pickup_view_tree" model="ir.ui.view">
+		<field name="name">Type a query tree</field>
+		<field name="model">querypickup</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="note" string="備註"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="query_deluxe_view_form" model="ir.ui.view">
+
+		<field name="name">資料查詢表單</field>
+		<field name="model">querydeluxe</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group colspan="4">
+						<field name="note"/>
+					</group>
+					
+					<group string="資料庫語法(忽略即可)" colspan="4">
+						<field name="name" nolabel="1" placeholder="SELECT * FROM res_partner"/>
+					</group>
+					
+					<button name="execute" type="object" string="查詢結果" class="oe_highlight"/>
+					<button name="print_result" string="列印PDF文件" type="object" class="oe_highlight"/>
+
+					<div style="overflow:visible !important;">
+						<group>
+
+							<group colspan="4">
+								<field name="html" readonly="1" nolabel="1"/>
+							</group>
+						</group>
+					</div>
+				</sheet>
+
+			</form>
+		</field>
+	</record>
+
+	<record model='ir.actions.act_window' id='query_deluxe_submenu_querydeluxe_action'>
+        <field name="name">資料查詢管理</field>
+        <field name="res_model">querydeluxe</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+	<record id="query_pickup_view_form" model="ir.ui.view">
+        <field name="name">取貨查詢表單</field>
+        <field name="model">querypickup</field>
+        <field name="arch" type="xml">
+            <form>
+				<sheet>
+					<group colspan="4">
+						<field name="note"/>
+						<field name="pickup_id"/>
+						<field name="pickup_date"/>
+						<field name="pickup_area"/>
+						<field name="show_discount"/>
+						<field name="discount_amount"/>
+						<field name="amount_total"/>
+						
+					</group>
+					
+					<button name="execute" type="object" string="1.查詢結果" class="oe_highlight"/>
+					<button name="minus_user_discount" type="object" string="2.購物金折抵" class="oe_highlight"/>
+					<button name="update_state" type="object" string="3.將訂單完成" class="oe_highlight"/>
+					<div style="overflow:visible !important;">
+						<group>
+							<group colspan="4">
+								<field name="html" readonly="1" nolabel="1"/>
+							</group>
+						</group>
+					</div>
+				</sheet>
+
+			</form>
+		</field>
+	</record>
+	
+	<record model='ir.actions.act_window' id='query_pickup_submenu_querydeluxe_action'>
+        <field name="name">取貨查詢管理</field>
+        <field name="res_model">querypickup</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<menuitem id="query_deluxe_menu" name="資料查詢" sequence="-1" groups="query_deluxe.group_query_deluxe" web_icon="query_deluxe,static/description/icon.png"/>
+	<menuitem id="query_deluxe_submenu_querydeluxe" parent="query_deluxe_menu" action="query_deluxe_submenu_querydeluxe_action" sequence="-1" groups="query_deluxe.group_query_deluxe"/>
+	<menuitem id="query_pickup_submenu_querydeluxe" parent="query_deluxe_menu" action="query_pickup_submenu_querydeluxe_action" sequence="-1" groups="query_deluxe.group_query_deluxe"/>
+</odoo>

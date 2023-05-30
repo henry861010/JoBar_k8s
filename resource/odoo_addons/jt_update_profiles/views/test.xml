@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="demo_odoo_template" name="該次訂單">
+	  <t t-call="portal.portal_layout">
+			<p class="text-left">  會員編號:<t t-esc="id"/></p>
+            <p class="text-left">  取貨總額:<t t-esc="total"/></p>
+			<p class="text-left">  取貨日期:<t t-esc="date"/></p>
+			
+            <t t-if="not objs">
+                <p>沒有找到近期的訂單耶QQ</p>
+            </t>
+            <t t-if="objs" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class="d-none d-md-inline">訂單列表</span>
+                            <span class="d-none d-md-inline">訂單列表</span>
+                            <span class="d-block d-md-none">訂單列表</span>
+                        </th>
+                        <th class="text-left">取貨區域</th>
+						<th class="text-right"></th>
+                        <th class="text-right">單號小記</th>
+                    </tr>
+                </thead>
+                <t t-foreach="objs" t-as="order">
+                    <tr>
+                        <td><a t-att-href="order.get_portal_url()"><t t-esc="order.name"/></a></td>
+					
+						
+                        <td><a t-att-href="order.get_portal_url()"><t t-esc="area[order.pickup_area.id]"/></a></td>
+                        <td class="text-center">
+                            <span t-if="order.state == 'done'" class="badge badge-pill badge-success">
+                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="完成"/>Done
+                            </span>
+                        </td>
+                        <td class="text-right"><span t-field="order.amount_total"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+	</template>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_view_contacts_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="before">
+                <field name="birthdays"/>
+				<field name="pickup_area"/>
+				<field name="fb_app_id"/>
+
+
+            </xpath>
+            <field name="category_id" position="before">
+				<field name="user_discount"/>
+                <field name="is_enroll"/>
+                <field name="note"/>
+            </field>
+        </field>
+    </record>
+</odoo>

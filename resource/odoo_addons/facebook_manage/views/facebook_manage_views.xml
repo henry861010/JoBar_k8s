@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<odoo>
+	<record id="facebook_manage_view_tree" model="ir.ui.view">
+		<field name="name">Type a page tree</field>
+		<field name="model">facebookmanage</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="id" string="貼文ID"/>
+				<field name="is_valid" string="是否擷取"/>
+				<field name="update_time" string="更新時間"/>
+				<field name="page_id" string="貼文編號"/>
+				<field name="message_content" string="貼文簡介"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="facebook_manage_filter_view" model="ir.ui.view">
+		<field name="name">Search Post</field>
+		<field name="model">facebookmanage</field>
+		<field name="arch" type="xml">
+			<search string="Search Post">
+				<field name="id" string="貼文ID"/>
+				<field name="is_valid" string="是否擷取"/>
+				<field name="update_time" string="更新時間"/>
+				<field name="page_id" string="貼文編號"/>
+				<field name="message_content" string="貼文簡介"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="facebook_manage_view_form" model="ir.ui.view">
+		<field name="name">Type a page form</field>
+		<field name="model">facebookmanage</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<button name="updateComment" string="貼文參數" type="object" class="oe_highlight" />
+					<group>
+						<field name="is_valid"/>
+						<field name="update_time"/>
+						<field name="message_content"/>
+						<field name="page_id"/>
+						<field name="site" widget="url"/>
+						<field name="note"/>
+					</group>
+					<notebook>
+						<page string="留言">
+							<field name="comment_line">
+								<tree editable="buttom">
+									<field name="partner_id" />
+									<field name="comment_content"/>
+									<field name="state"/>
+									<field name="create_time"/>
+									<field name="comment_id"/>
+									<field name="comment_link" widget="url"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				
+			</form>
+		</field>
+	</record>
+
+	<record model='ir.actions.act_window' id='facebook_manage_submenu_facebookmanage_action'>
+        <field name="name">貼文管理</field>
+        <field name="res_model">facebookmanage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+	
+	
+	<menuitem id="facebook_manage_menu" name="臉書貼文管理" sequence="-1" groups="facebook_manage.group_facebook_manage" web_icon="facebook_manage,static/description/icon.png"/>
+	<menuitem id="facebook_manage_submenu_facebookmanage" parent="facebook_manage_menu" action="facebook_manage_submenu_facebookmanage_action" sequence="-1" groups="facebook_manage.group_facebook_manage"/>
+</odoo>

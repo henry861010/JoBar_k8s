@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="account_validate" name="帳號狀態">
+	  <t t-call="portal.portal_layout">
+			<p class="text-left">  會員編號:<t t-esc="id"/></p>
+			<p> </p>
+			<p> </p>
+			
+            <t t-if="not objs">
+                <p>臉書狀態尚未驗證成功</p>
+				<p>請先參考<a href="/application-enroll" class="btn btn-primary">註冊教學</a>，如仍未成功請聯繫客服人員</p>
+				<p>填寫完畢請前往<a href="https://www.facebook.com/groups/777119749887059/permalink/1024944065104625" class="btn btn-primary">臉書貼文</a>留言</p>
+				<p>並於10分鐘後回來此頁面做確認</p>
+				<p> </p>
+				<p> </p>
+            </t>
+			
+			<t t-if="check_filled_ids">
+                <p>注意!請正確填寫臉書應用程式編號</p>
+				<p> </p>
+				<p> </p>
+            </t>
+			
+            <t t-if="objs">
+				<p>Facebook已正確完成註冊</p>
+				<p> </p>
+				<p> </p>
+            </t>
+			
+			<t t-if="not enrolls.oauth_provider_id = 6">
+                <p>請聯絡管理員，並以Line註冊</p>
+				<p>否則無法使用系統，謝謝您的配合!</p>
+				<p> </p>
+				<p> </p>
+            </t>
+			
+            <t t-if="enrolls.oauth_provider_id = 6">
+				<p>Line已正確完成註冊</p>
+				<p>請確認常用取貨區域是否填寫正確</p>
+				<p>未填寫聯絡電話的會員建議可以填寫方便查閱資料</p>
+            </t>
+		
+			
+			<t t-if="not partners.pickup_area">
+                <p>請正確填寫取貨資訊</p>
+				<p> </p>
+				<p> </p>
+            </t>
+			
+            <t t-if="partners.pickup_area">
+				<p class="text-left">  取貨區域:<t t-esc="partners.pickup_area.name"/></p>
+				<p>請確認常用取貨區域是否填寫正確</p>
+				<p>未填寫聯絡電話的會員建議可以填寫方便查閱資料</p>
+            </t>
+		
+        </t>
+	</template>
+</odoo>

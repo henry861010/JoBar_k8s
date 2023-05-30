@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="login" inherit_id="web.login" name="OAuth Providers Assets">
+            <xpath expr="//form" position="after">
+                <link rel="stylesheet" type="text/scss" href="/login_with_line_app/static/src/scss/auth_oauth.scss"/>
+            </xpath>
+        </template>
+</odoo>
+

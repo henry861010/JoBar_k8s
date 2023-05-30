@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.inherited</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="pickup_date"/>
+                <field name="pickup_area"/>
+                <field name="sale_description"/>
+            </field>
+        </field>
+    </record>
+	
+	
+	
+	<record id="sale_order_view_search_inherit_quotation" model="ir.ui.view">
+        <field name="name">sale.order.inherited</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree>
+				<field name="name"/>
+				<field name="partner_id"/>
+                <field name="pickup_date"/>
+                <field name="pickup_area"/>
+                <field name="sale_description"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

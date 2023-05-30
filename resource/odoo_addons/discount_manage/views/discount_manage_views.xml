@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<odoo>
+	<record id="discount_manage_view_tree" model="ir.ui.view">
+		<field name="name">Type a page tree</field>
+		<field name="model">discount.manage</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="partner_id" string="客戶編號"/>
+				<field name="order_id" string="訂單編號"/>
+				<field name="origin_rewards" string="購物金原始金額"/>
+				<field name="discount_rewards" string="折抵金額"/>
+				<field name="left_rewards" string="折抵後金額"/>
+                <field name="discount_date" string="折抵日期"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="discount_manage_filter_view" model="ir.ui.view">
+		<field name="name">Search Post</field>
+		<field name="model">discount.manage</field>
+		<field name="arch" type="xml">
+			<search string="Search Post">
+                <field name="partner_id" string="客戶編號"/>
+                <field name="order_id" string="訂單編號"/>
+                <field name="origin_rewards" string="購物金原始金額"/>
+                <field name="discount_rewards" string="折抵金額"/>
+                <field name="left_rewards" string="折抵後金額"/>
+                <field name="discount_date" string="折抵日期"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="discount_manage_view_form" model="ir.ui.view">
+		<field name="name">Type a page form</field>
+		<field name="model">discount.manage</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+                        <field name="partner_id"/>
+                        <field name="order_id"/>
+                        <field name="origin_rewards"/>
+                        <field name="discount_rewards"/>
+                        <field name="left_rewards"/>
+                        <field name="discount_date"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model='ir.actions.act_window' id='discount_manage_submenu_discount_manage_action'>
+        <field name="name">折扣管理</field>
+        <field name="res_model">discount.manage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+	
+	
+	<menuitem id="discount_manage_menu" name="折扣管理" sequence="-1" groups="discount_manage.group_discount_manage" web_icon="discount_manage,static/description/icon.png"/>
+	<menuitem id="discount_manage_submenu_discount_manage" parent="discount_manage_menu" action="discount_manage.discount_manage_submenu_discount_manage_action" sequence="-1" groups="discount_manage.group_discount_manage"/>
+</odoo>

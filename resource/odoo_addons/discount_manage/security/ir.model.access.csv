@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_discount_manage,discount manage access,discount_manage.model_discount_manage,discount_manage.group_discount_manage,1,1,1,1

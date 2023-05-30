@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="group_pickup" model="res.groups">
+        <field name="name">Access Pickup Area</field>
+    </record>
+	
+	<record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('fields_haohaochi.group_pickup'))]"/>
+    </record>
+</odoo>
+
+
+

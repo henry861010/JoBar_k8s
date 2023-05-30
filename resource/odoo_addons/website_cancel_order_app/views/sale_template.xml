@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="assets_front" inherit_id="website.assets_frontend" name="Website Cancel Order">
+		<xpath expr="." position="inside">
+			<script type="text/javascript" src="/website_cancel_order_app/static/src/js/cancel_order_pop_up.js"></script>
+		</xpath>
+	</template>
+
+	<template id="cancel_order_button_quote" name="Cancel Order Button" inherit_id="sale.portal_my_quotations">
+		<xpath expr="//t/t/thead/tr" position="inside">
+			<th class="text-right">取消</th>
+		</xpath>
+		<xpath expr="//t/t/tr/td[4]" position="inside">
+			<span t-if="quotation.state == 'req_to_cancel'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-remove"/>要求取消中</span>
+		</xpath>
+		<xpath expr="//t/t/tr" position="inside">
+			<td>
+				<button t-att-id="quotation.id" t-if="quotation.state == 'sent'" role="button" class="btn btn-danger js_cancel_quote" style="float: right;">
+					<i class="fa fa-times"/> 取消
+				</button>
+			</td>
+			<div role="dialog" class="modal fade" id="modalcancelquote">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form id="cancel_quote"  method="GET">
+							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<header class="modal-header">
+								<h4 class="modal-title">取消訂單</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+							</header>
+							<main class="modal-body">
+	                            <p>
+	                                <strong>取消的原因</strong><br/>
+	                                <input type="text" name="reason_for_cancel" id="reason" placeholder="例如:下單錯誤" style="width: 100%;padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px;box-sizing: border-box;" required=""/><br/>
+	                                <strong>備註</strong><br/>
+	                                <input type="text" name="remarks" id="remarks" placeholder="例如:下單其他商品" style="width: 100%;padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px;box-sizing: border-box;" required=""/>
+	                            </p>
+	                        </main>
+	                        <footer class="modal-footer">
+	                            <button id="submit_ids" type="submit" class="btn btn-danger submit_btn" href="#"><i class="fa fa-times"></i> 取消訂單</button>
+	                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+	                        </footer>
+						</form>
+					</div>
+				</div>
+			</div>
+		</xpath>
+	</template>
+
+
+	<template id="cancel_order_button_order" name="Cancel Order Button" inherit_id="sale.portal_my_orders">
+		<xpath expr="//t/t/thead/tr" position="inside">
+			<th class="text-right">取消</th>
+		</xpath>
+		
+		<xpath expr="//t/t/tr/td[3]" position="inside">
+			<span t-if="order.state == 'req_to_cancel'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-remove"/> 要求取消中</span>
+		</xpath>
+		
+		<xpath expr="//t/t/tr" position="inside">
+			<td>
+				<button id='cancel_button_order' t-att-id="order.id" t-if="order.state == 'sale'" data-toggle="modal" data-target="#modalcancelorder" data-id="modal_ids" role="button" class="btn btn-danger js_cancel_order" style="float: right;" href="#">
+					<i class="fa fa-times"/> 取消
+				</button>
+			</td>
+			<div role="dialog" class="modal fade" id="modalcancelorder">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form id="cancel_order"  method="GET">
+							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<header class="modal-header">
+								<h4 class="modal-title">取消訂單</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+							</header>
+							<main class="modal-body">
+	                            <p>
+	                                <strong>取消的原因</strong><br/>
+	                                <input type="text" id="order_reason" name="reason_for_cancel" placeholder="例如:下單錯誤" style="width: 100%;padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px;box-sizing: border-box;" required=""/><br/>
+	                                <strong>備註</strong><br/>
+	                                <input type="text" id="order_remarks" name="remarks" placeholder="例如:下單其他商品" style="width: 100%;padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px;box-sizing: border-box;" required=""/>
+	                            </p>
+	                        </main>
+	                        <footer class="modal-footer">
+	                            <button type="submit" t-att-id="order.id" class="btn btn-danger submit_order"><i class="fa fa-times"></i> 取消訂單</button>
+	                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+	                        </footer>
+						</form>
+					</div>
+				</div>
+			</div>
+		</xpath>
+	</template>
+</odoo>

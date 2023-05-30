@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_facebookmanage,facebookmanage access,facebook_manage.model_facebookmanage,facebook_manage.group_facebook_manage,1,1,1,1
+access_facebookcomment,facebookcomment access,facebook_manage.model_facebookcomment,facebook_manage.group_facebook_manage,1,1,1,1
+access_facebookconfig,facebookconfig access,facebook_manage.model_facebookconfig,facebook_manage.group_facebook_manage,1,1,1,1
