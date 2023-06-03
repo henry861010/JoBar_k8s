@@ -36,7 +36,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_config
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/odoo_config
 
 ---
 
@@ -73,7 +73,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_addons
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s//resource/odoo_addons
 
 ---
 
@@ -110,7 +110,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/odoo_webdata
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/odoo_webdata
 
 ---
 
@@ -147,7 +147,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/log/odoo_log
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/log/odoo_log
 
 ---
 
@@ -182,7 +182,7 @@ spec:
         app: odoo
     spec:
       containers:
-      - name: JoBAR_Odoo
+      - name: odoo
         image: odoo:16
         ports:
         - name: http
@@ -211,7 +211,7 @@ spec:
         - name: PGPORT   #PGPORT: "5432"
           value: "5432"
         - name: ODOO_HTTP_SOCKET_TIMEOUT
-          value: 20
+          value: "20"
         volumeMounts:
         - name: odoo-config-volume
           mountPath: /etc/odoo/

@@ -3,12 +3,14 @@ kind: Service
 metadata:
   name: pgadmin-service
 spec:
+  type: NodePort
   selector: 
     app: pgadmin
   ports:
   - name: http
     port: 5050
     targetPort: 80
+    nodePort: 30082
 
 ---
 
