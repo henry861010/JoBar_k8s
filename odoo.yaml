@@ -73,7 +73,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s//resource/odoo_addons
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/odoo_addons
 
 ---
 
@@ -156,12 +156,14 @@ kind: Service
 metadata:
   name: odoo-service
 spec:
+  type: NodePort #####################
   selector: 
     app: odoo
   ports:
   - name: http
     port: 8069  
     targetPort: 8069
+    nodePort: 30088   #############
 
 ---
 
@@ -188,27 +190,32 @@ spec:
         - name: http
           containerPort: 8069
         env:
-        - name: POSTGRES_USER   #POSTGRES_USER: postgresuser
+        #- name: POSTGRES_USER   #POSTGRES_USER: postgresuser
+        - name: USER   #POSTGRES_USER: postgresuser
           valueFrom:
             secretKeyRef:
               name: secret
               key: POSTGRES_USER
-        - name: POSTGRES_PASSWORD   #POSTGRES_PASSWORD: postgrespasswd
+        #- name: POSTGRES_PASSWORD   #POSTGRES_PASSWORD: postgrespasswd
+        - name: PASSWORD   #POSTGRES_PASSWORD: postgrespasswd
           valueFrom:
             secretKeyRef:
               name: secret
               key: POSTGRES_PASSWORD
-        - name: POSTGRES_DB   #POSTGRES_DB: postgres
+        #- name: POSTGRES_DB   #POSTGRES_DB: postgres
+        - name: DB   #POSTGRES_DB: postgres
           valueFrom:
             secretKeyRef:
               name: secret
               key: POSTGRES_DB
-        - name: PGHOST   #PGHOST: DB
+        #- name: PGHOST   #PGHOST: DB
+        - name: HOST   #PGHOST: DB
           valueFrom:
             secretKeyRef:
               name: secret
               key: PGHOST
-        - name: PGPORT   #PGPORT: "5432"
+        #- name: PGPORT   #PGPORT: "5432"
+        - name: PORT   #PGPORT: "5432"
           value: "5432"
         - name: ODOO_HTTP_SOCKET_TIMEOUT
           value: "20"

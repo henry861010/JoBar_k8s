@@ -1,4 +1,37 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: frontendweb-pv
+  labels:
+    app: frontendweb
+    pv-for: frontendweb
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  hostPath:
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/frontendweb_data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontendweb-pvc
+  labels:
+    app: frontendweb
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      pv-for: frontendweb
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: frontendweb-service
@@ -43,39 +76,3 @@ spec:
         persistentVolumeClaim:
           claimName: frontendweb-pvc
 
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: frontendweb-pvc
-  labels:
-    app: frontendweb
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
-  selector:
-    matchLabels:
-      pv-for: frontendweb
-
---- 
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: frontendweb-pv
-  labels:
-    app: frontendweb
-    pv-for: frontendweb
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 100Mi
-  hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/frontendweb_data

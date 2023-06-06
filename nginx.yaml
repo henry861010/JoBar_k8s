@@ -17,7 +17,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/letsencrypt
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/letsencrypt
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
 ---
@@ -36,7 +36,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/intel/Desktop/JoBar_k8s/resource/nginx_data
+    path: /run/desktop/mnt/host/c/Users/dingf/Desktop/JoBar_k8s/resource/nginx_data
   persistentVolumeReclaimPolicy: Retain ###i'm not sure the function of this line
 
 ---

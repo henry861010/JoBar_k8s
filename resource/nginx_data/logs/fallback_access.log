@@ -1,0 +1,2 @@
+[03/Jun/2023:03:40:12 +0000] 200 - GET http 127.0.0.1 "/" [Client 192.168.65.4] [Length 568] [Gzip 1.86] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" "-"
+[03/Jun/2023:03:42:25 +0000] 404 - GET http 127.0.0.1 "/admin" [Client 192.168.65.4] [Length 183] [Gzip 3.21] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" "-"
